@@ -1,0 +1,102 @@
+.companies{
+    height: 100%;
+    &__wrapper{
+        height: 100%;
+        margin-top: 30px;
+    }
+    &__list{
+        color: #000000;
+            padding: 10px 10px;
+            width: 300px;
+            background: #bfbfbf;
+            border: none;
+            -moz-appearance: textfield;
+            -webkit-appearance: textfield;
+            appearance: textfield;
+            &::-webkit-outer-spin-button{
+                display: none;
+            }
+            &::-webkit-inner-spin-button {
+                display: none;
+            }
+            &:focus {
+                outline: none;
+            }            
+        &_input{
+        }
+    }
+    &__company{
+        margin-top: 20px;
+        margin-bottom: 40px;
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: #d6d6d6;
+        text-align: center;
+        padding: 10px 10px;
+        &_title{
+            color: #000000;
+            font-size: 12px;
+            height: 25px;
+        }
+        &_title-none{
+            align-items: center;
+            display: flex;
+            color: #FF3A18;
+            font-size: 12px;
+            height: 70px;
+        }
+        &_button{
+            margin-top: 15px;
+            background: #a5a4a4;
+            padding: 5px 20px;
+        }
+    }
+    &__table-none{
+        width: 100%;
+        background: #d6d6d6;
+        color: #FF3A18;
+        height: 300px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    &__table{
+        width: 100%;
+        background: #d6d6d6;
+        border-collapse: collapse;
+        &_row{
+            align-items: center;
+            &:first-child{
+                border-bottom: 1px solid #000000;
+            }
+        }
+        &_title{
+            text-align: left;
+            color: #000000;
+            padding: 5px 40px 5px 10px;
+            &:nth-child(3){
+                text-align: right;
+            }
+        }
+        /* &_value{
+            text-align: left;
+            color: #000000;
+            
+        } */
+    }
+    &__footer{
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+        &_counter{
+            color: #000000;
+        }
+        &_button-save{
+            color: #000000;
+            background: #a5a4a4;
+            padding: 5px 50px;
+        }
+    }
+}

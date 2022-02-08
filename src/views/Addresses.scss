@@ -1,0 +1,34 @@
+.addresses{
+    height: 100%;
+    &__wrapper{
+        height: 100%;
+        margin-top: 100px;
+    }
+    &__table{
+        width: 100%;
+        background: #d6d6d6;
+        border-collapse: collapse;
+        &_row{
+            align-items: center;
+            &:first-child{
+                border-bottom: 1px solid #000000;
+            }
+        }
+        &_title{
+            text-align: left;
+            color: #000000;
+            padding: 5px 40px 5px 10px;
+            &:last-child{
+                text-align: right;
+            }
+        }
+    }
+    &__footer{
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+        &_counter{
+            color: #000000;
+        }
+    }
+}
