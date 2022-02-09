@@ -1,11 +1,13 @@
 <template>
     <div class="companies">
         <div class="companies__wrapper">
-            <input type="text" v-model="dataInn" @input="searchCompanies(dataInn)" placeholder="Укажите ИНН" class="companies__list">
-            <template v-for="(companie, index) in newCompaniesArray" :key="index">
-                <div class="companies__list pointer" @click="searchSelectCompany(companie.value, companie.data.inn, companie.data.ogrn, companie.data.kpp)">{{companie.value + ' ' + companie.data.inn}}</div>
-            </template>
-            <div class="companies__company" v-if="selectCompany.name == '' && selectCompany.inn == ''">
+            <input type="text" v-model="dataInn" @input="postQueyCompanyes(dataInn)" placeholder="Укажите ИНН" class="companies__list">
+            <div v-if="companies[0]" class="companies__search-list">
+                <template v-for="(companie, index) in newCompaniesArray" :key="index">
+                    <div v-if="dataInn != '' " class="companies__list pointer" @click="searchSelectCompany(companie.value, companie.data.inn, companie.data.ogrn, companie.data.kpp)">{{companie.value + ' ' + companie.data.inn}}</div>
+                </template>
+            </div>
+            <div class="companies__company" v-if="selectCompany.name == ''">
                 <div class="companies__company_title-none">Выберите компанию</div>
             </div>
             <div class="companies__company" v-else>
@@ -34,7 +36,7 @@
             </table>
             <div class="companies__footer">
                 <div class="companies__footer_counter">Всего {{Object.keys(addedCompanies).length}} компаний</div>
-                <div class="companies__footer_button-save pointer" @click="saveData()">Сохранить</div>
+                <router-link class="router-none" to="/addresses"><div class="companies__footer_button-save pointer" @click="saveData()">Сохранить</div></router-link>
             </div>
         </div>
     </div>
@@ -46,15 +48,22 @@ import { useCompanies } from "@/composition/useCompanies";
 
 export default {
     setup() {
-        const {getCompanies, companies, arrAddCompanys, postDataCompanie, addedCompanies} = useCompanies()
+
+        const {getCompanies, companies, arrAddCompanys, postDataCompanie, addedCompanies, tempStorage} = useCompanies()
 
         const newCompaniesArray = ref()
 
-        getCompanies()
-        .then(r=>{
-            companies.value = {...r.suggestions}
-            newCompaniesArray.value = {...r.suggestions}
-        })
+        const postQueyCompanyes = (query) => {
+            getCompanies(query)
+            .then(r=>{
+                companies.value = {...r.suggestions}
+                newCompaniesArray.value = {...r.suggestions}
+            })
+        }
+
+        const keydown = () => {
+             postQueyCompanyes(dataInn.value)
+        }
 
         const selectCompany = ref({
             name: "",
@@ -79,20 +88,9 @@ export default {
 
         const dataInn = ref("")
 
-        const searchCompanies = (inn) => {
-
-            if(inn){
-                
-                newCompaniesArray.value = Object.values(companies.value).filter(item => /* item.inn.startsWith(inn) */ /* console.log(companies.value.item) */ /* console.log(item) */)
-            }
-            else{
-                newCompaniesArray.value = companies.value
-            }
-        }
-
         const owner = ref()
 
-        const addNewCompany = (nameCompany, innCompany, ogrnCompany, kppCompany) => {
+        const addNewCompany = (nameCompany, innCompany, ogrnCompany, kppCompany ) => {
             for(let i=0; i < Object.keys(companies.value).length; i++){
                 if(companies.value[i].data.management == null){
                     for(let j=0; j < Object.keys(companies.value).length; j++){
@@ -104,7 +102,7 @@ export default {
                     }
                 }
             }
-            arrAddCompanys.value.push({
+             arrAddCompanys.value.push({
                 name: nameCompany,
                 inn: innCompany,
                 ogrn: ogrnCompany,
@@ -127,9 +125,14 @@ export default {
 
         const saveData = () => {
             postDataCompanie()
+
+            //Прослойка для работы без API
+
+            tempStorage.value = Object.values(companies.value).filter(value => Object.values(addedCompanies.value).find(element => element.name == value.value))
         }
 
         return{
+            postQueyCompanyes,
             titleTables,
 
             dataInn,
@@ -144,12 +147,13 @@ export default {
             deleteCompanie,
 
             newCompaniesArray,
-            searchCompanies,
 
             saveData,
 
             companies,
             arrAddCompanys,
+            tempStorage,
+            keydown,
         }
     }
 }

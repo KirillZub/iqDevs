@@ -35,6 +35,10 @@
   }
 }
 
+.router-none{
+  text-decoration: none;
+}
+
 .pointer{
   cursor: pointer;
 }

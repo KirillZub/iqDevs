@@ -4,27 +4,15 @@ const companies = ref({})
 
 const addedCompanies = ref([])
 
-/* const arrAddCompanys = ref([
-    {name: "ПАО СБЕРБАНК"},
-    {name: "БАЙКАЛЬСКИЙ БАНК ПАО СБЕРБАНК"},
-    {name: "ДАЛЬНЕВОСТОЧНЫЙ БАНК ПАО СБЕРБАНК"},
-    {name: "ЗАПАДНО-СИБИРСКОЕ ОТДЕЛЕНИЕ №8647"},
-    {name: "МОСКОВСКИЙ БАНК ПАО СБЕРБАНК"},
-    {name: "ПОВОЛЖСКИЙ БАНК ПАО СБЕРБАНК"},
-    {name: "СИБИРСКИЙ БАНК ПАО СБЕРБАНК"},
-    {name: "УРАЛЬСКИЙ БАНК ПАО СБЕРБАНК"},
-    {name: "СРЕДНЕРУССКИЙ БАНК ПАО СБЕРБАНК"},
-    {name: "АБАКАНСКОЕ ОТДЕЛЕНИЕ №8602 ПАО СБЕРБАНК"},
-]) */
-
 const arrAddCompanys = ref([
 ])
 
+const tempStorage = ref([])
+
 export function useCompanies() {
-    const getCompanies = async () => {
+    const getCompanies = async (query) => {
        let url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/findById/party";
        let token = "0931955768c79992c6cd73b6ea2157405a2f3e8d";
-       let query = "7707083893";
        
        let options = {
            method: "POST",
@@ -53,12 +41,12 @@ export function useCompanies() {
             body: JSON.stringify({companies: arrAddCompanys.value})
         }
        return await fetch("http://localhost:8080/", data)
-       /* .then(res => res.json()) */
     }
     return {
         companies,
         addedCompanies,
         arrAddCompanys,
+        tempStorage,
         
         getCompanies,
         postDataCompanie,

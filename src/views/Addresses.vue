@@ -24,7 +24,7 @@ import { useCompanies } from "@/composition/useCompanies";
 
 export default {
     setup() {
-        const {getCompanies, companies, arrAddCompanys} = useCompanies()
+        const {getCompanies, companies, arrAddCompanys, tempStorage} = useCompanies()
 
         getCompanies()
         .then(r=>{
@@ -44,7 +44,7 @@ export default {
         const cities = ref([])
 
         const сalculationСities = () => {
-            cityCompanies.value = Object.keys(companies.value).map((key) => companies.value[key]).filter(value => Object.keys(arrAddCompanys.value).map((key) => arrAddCompanys.value[key]).find(element => element.name == value.value))/* .map(obj => obj.data.address.value.match(/^([а-я]{0,1})(\s)*([а-я]+)/i)[3]); */
+            cityCompanies.value = tempStorage.value;
             let tempCityes = {}
             for(let i = 0; i < cityCompanies.value.length; i++){
                 let cityName = cityCompanies.value[i].data.address.value.match(/^([а-я]{0,1})(\s)*([а-я]+)/i)[3]
@@ -81,6 +81,8 @@ export default {
             newCityCompanies,
 
             cities,
+
+            tempStorage,
         }
     }
 }
